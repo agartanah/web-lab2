@@ -1,0 +1,24 @@
+@mixin button-size($width, $height) {
+    width: $width;
+    height: $height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+@mixin button-border-style($border-radius, $border-size, $border-color) {
+    border: $border-size;
+    border-style: solid;
+    border-color: $border-color;
+    border-radius: $border-radius;
+}
+
+@mixin button-bg-color($bg-color, $hover-color) {
+    background-color: $bg-color;
+
+    &:hover {
+        background-color: $hover-color;
+    }
+}

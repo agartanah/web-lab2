@@ -1,0 +1,23 @@
+@import "../../colors/colors";
+@import "../../mixins/button-mixin";
+
+.task-buttons {
+    @include button-size(36px, 36px);
+    @include button-border-style(6px, 1px, $orange-dark);
+    @include button-bg-color($light-background-color, $hover-color);
+}
+
+.share-button {
+    @extend .task-buttons;
+    background: url('/src/images/share-button.svg') center no-repeat;
+}
+
+.info-button {
+    @extend .task-buttons;
+    background: url('/src/images/info-button.svg') center no-repeat;
+}
+
+.edit-button {
+    @extend .task-buttons;
+    background: url('/src/images/edit-button.svg') center no-repeat;
+}

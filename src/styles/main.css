@@ -1,0 +1,166 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);
+.add-button {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px;
+  border-style: solid;
+  border-color: #FF8303;
+  border-radius: 8px;
+  background: url("/src/images/add-button.svg") center no-repeat;
+  background-color: #1B1A17;
+}
+.add-button:hover {
+  background-color: #2B2A27;
+}
+
+.input-task {
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 4px;
+  border: 1px solid #FF8303;
+  background-color: #242320;
+  font-weight: bold;
+  font-size: 14px;
+}
+.input-task:focus {
+  outline: none;
+  background-color: #2B2A27;
+}
+
+.dell-button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 2px;
+  border-style: solid;
+  border-color: #A35709;
+  border-radius: 5px;
+  background: url("/src/images/dell-button.svg") center no-repeat;
+  background-color: #1B1A17;
+}
+.dell-button:hover {
+  background-color: #2B2A27;
+}
+
+.task-buttons, .edit-button, .info-button, .share-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 1px;
+  border-style: solid;
+  border-color: #A35709;
+  border-radius: 6px;
+  background-color: #242320;
+}
+.task-buttons:hover, .edit-button:hover, .info-button:hover, .share-button:hover {
+  background-color: #2B2A27;
+}
+
+.share-button {
+  background: url("/src/images/share-button.svg") center no-repeat;
+}
+
+.info-button {
+  background: url("/src/images/info-button.svg") center no-repeat;
+}
+
+.edit-button {
+  background: url("/src/images/edit-button.svg") center no-repeat;
+}
+
+.text-buttons {
+  width: 64px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 1px;
+  border-style: solid;
+  border-color: #A35709;
+  border-radius: 4px;
+  background-color: #1B1A17;
+  color: #F0E3CA;
+  font-size: 0.8em;
+}
+.text-buttons:hover {
+  background-color: #2B2A27;
+}
+
+.form-task-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  gap: 10px;
+}
+.form-task-container .input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 70px;
+  gap: 10px;
+}
+
+.list-task-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 16px;
+}
+.list-task-container .task {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 2% 2% 1% 2%;
+  box-sizing: border-box;
+  border: 2px;
+  border-style: solid;
+  border-color: #A35709;
+  border-radius: 8px;
+}
+.list-task-container .task .task-text {
+  max-width: 80%;
+}
+.list-task-container .task .task-text .task-title {
+  font-size: 22px;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.list-task-container .task .task-text .task-description {
+  font-size: 14px;
+  overflow: hidden;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto";
+  color: #F0E3CA;
+  background-color: #1B1A17;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,33 @@
+@import "../../mixins/button-mixin";
+
+.list-task-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 16px;
+
+    .task {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        padding: 2% 2% 1% 2%;
+        box-sizing: border-box;
+        @include button-border-style(8px, 2px, $orange-dark);
+
+        .task-text {
+            max-width: 80%;
+
+            .task-title {
+                font-size: 22px;
+                margin-bottom: 4px;
+                overflow: hidden;
+            }
+    
+            .task-description {
+                font-size: 14px;
+                overflow: hidden;
+            }
+        }
+    }
+}

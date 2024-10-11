@@ -1,0 +1,9 @@
+@import "../../colors/colors";
+@import "../../mixins/button-mixin";
+
+.add-button {
+    @include button-size(70px, 70px);
+    @include button-border-style(8px, 2px, $orange-light);
+    background: url('/src/images/add-button.svg') center no-repeat;
+    @include button-bg-color($main-background-color, $hover-color);
+}   

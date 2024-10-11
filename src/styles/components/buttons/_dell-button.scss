@@ -1,0 +1,9 @@
+@import "../../colors/colors";
+@import "../../mixins/button-mixin";
+
+.dell-button {
+    @include button-size(32px, 32px);
+    @include button-border-style(5px, 2px, $orange-dark);
+    background: url('/src/images/dell-button.svg') center no-repeat;
+    @include button-bg-color($main-background-color, $hover-color);
+}

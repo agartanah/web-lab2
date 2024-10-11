@@ -1,0 +1,18 @@
+@import "../../../colors/colors";
+@import "../../../mixins/button-mixin";
+@import "../../../fonts/roboto";
+
+.input-task {
+    height: 32px;
+    padding-left: 10px;
+    border-radius: 4px;
+    border: 1px solid $orange-light;
+    background-color: $light-background-color;
+    font-weight: bold;
+    font-size: 14px;
+
+    &:focus {
+        outline: none;
+        background-color: $hover-color;
+    }
+}
