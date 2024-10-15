@@ -11,6 +11,19 @@
 </head>
 
 <body>
+    <dialog class="modal-window" id="modal-window">
+        <div class="modal-content-container">
+            <div class="modal-decoration"></div>
+            <div class="modal-text-container">
+                <p class="modal-text">Delete this task?</p>
+            </div>
+            <div class="modal-buttons-container">
+                <button class="text-buttons">Да</button>
+                <button class="text-buttons re-bg">Нет</button>
+            </div>
+        </div>
+    </dialog>
+
     <div id="form-task-container" class="form-task-container">
         <!-- <div class="input-container">
             <input type="text" class="input-task" placeholder="Title...">
@@ -30,27 +43,32 @@
     <button class="edit-button">
     </button> -->
     <div id="list-task-container" class="list-task-container">
+        <div class="task">
+            <div class="task-text">
+                <p class="task-title">Task Title...</p>
+                <p class="task-description">Task body about this task...</p>
+            </div>
+            <div class="dell-task-button-container">
+                <button class="dell-button">
+                </button>
+            </div>
+        </div>
+        <div class="task-buttons-container">
+            <button class="share-button"></button>
+            <button class="info-button"></button>
+            <button class="edit-button"></button>
+        </div>
+        <div class="task">
+            <div class="task-text">
+                <p class="task-title">Task Title...</p>
+                <p class="task-description">Task body about this task...</p>
+            </div>
+            <div class="dell-task-button-container">
+                <button class="dell-button">
+                </button>
+            </div>
+        </div>
         <!-- <div class="task">
-            <div class="task-text">
-                <p class="task-title">Task Title...</p>
-                <p class="task-description">Task body about this task...</p>
-            </div>
-            <div class="dell-task-button-container">
-                <button class="dell-button">
-                </button>
-            </div>
-        </div>
-        <div class="task">
-            <div class="task-text">
-                <p class="task-title">Task Title...</p>
-                <p class="task-description">Task body about this task...</p>
-            </div>
-            <div class="dell-task-button-container">
-                <button class="dell-button">
-                </button>
-            </div>
-        </div>
-        <div class="task">
             <div class="task-text">
                 <p class="task-title">Task Title...</p>
                 <p class="task-description">Task body about this task...</p>

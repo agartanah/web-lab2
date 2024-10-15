@@ -2,7 +2,7 @@
 @import "../../mixins/button-mixin";
 
 .text-buttons {
-    @include button-size(64px, 24px);
+    @include button-size(64px, 30px);
     @include button-border-style(4px, 1px, $orange-dark);
     @include button-bg-color($main-background-color, $hover-color);
     color: $text-color;

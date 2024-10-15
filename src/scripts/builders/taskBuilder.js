@@ -1,4 +1,9 @@
-export default function taskBuilder(listTaskContainer, titleTask, descriptionTask, deleteTask, taskId) {
+//
+// Принимает 1. контейнер списка задач; 2. название; 3. описание;
+// 4. метод для слушателя кнопки удаления 5. id задачи
+// 6. объект с модальным окном, кнопками Да и Нет.
+//
+export default function taskBuilder(listTaskContainer, titleTask, descriptionTask, deleteTask, taskId, modal) {
     const task = document.createElement('div');
     task.className = 'task';
     task.id = taskId;
@@ -22,7 +27,7 @@ export default function taskBuilder(listTaskContainer, titleTask, descriptionTas
 
     const dellButton = document.createElement('button');
     dellButton.className = 'dell-button';
-    dellButton.addEventListener('click', () => deleteTask(task));
+    dellButton.addEventListener('click', () => deleteTask(task, modal));
 
     dellTaskButtonContainer.appendChild(dellButton);
 
