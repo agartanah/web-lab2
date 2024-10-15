@@ -1,12 +1,27 @@
+let open = { isOpen: false };
+
 //
 // Принимает 1. контейнер списка задач; 2. название; 3. описание;
 // 4. метод для слушателя кнопки удаления 5. id задачи
 // 6. объект с модальным окном, кнопками Да и Нет.
 //
-export default function taskBuilder(listTaskContainer, titleTask, descriptionTask, deleteTask, taskId, modal) {
+export default function taskBuilder(
+    listTaskContainer, 
+    titleTask, 
+    descriptionTask, 
+    deleteTask, 
+    taskId, 
+    modal,
+    onClickTask,
+    taskButtonsContainer
+) {
+    const taskContainer = document.createElement('div');
+    taskContainer.className = 'task-container';
+    taskContainer.id = taskId;
+
     const task = document.createElement('div');
     task.className = 'task';
-    task.id = taskId;
+    task.addEventListener('click', () => onClickTask(taskContainer, taskButtonsContainer, open));
 
     const taskText = document.createElement('div');
     taskText.className = 'task-text';
@@ -27,12 +42,13 @@ export default function taskBuilder(listTaskContainer, titleTask, descriptionTas
 
     const dellButton = document.createElement('button');
     dellButton.className = 'dell-button';
-    dellButton.addEventListener('click', () => deleteTask(task, modal));
+    dellButton.addEventListener('click', () => deleteTask(taskContainer, modal));
 
     dellTaskButtonContainer.appendChild(dellButton);
 
     task.appendChild(taskText);
     task.appendChild(dellTaskButtonContainer);
 
-    listTaskContainer.insertBefore(task, listTaskContainer.firstChild);
+    taskContainer.appendChild(task);
+    listTaskContainer.insertBefore(taskContainer, listTaskContainer.firstChild);
 }

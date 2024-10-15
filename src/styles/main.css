@@ -125,9 +125,18 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
+  margin-bottom: 5%;
   gap: 16px;
 }
-.list-task-container .task {
+.list-task-container .task-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+.list-task-container .task-container .task {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -140,15 +149,15 @@
   border-color: #A35709;
   border-radius: 8px;
 }
-.list-task-container .task .task-text {
+.list-task-container .task-container .task .task-text {
   max-width: 80%;
 }
-.list-task-container .task .task-text .task-title {
+.list-task-container .task-container .task .task-text .task-title {
   font-size: 22px;
   margin-bottom: 4px;
   overflow: hidden;
 }
-.list-task-container .task .task-text .task-description {
+.list-task-container .task-container .task .task-text .task-description {
   font-size: 14px;
   overflow: hidden;
 }

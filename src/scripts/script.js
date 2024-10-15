@@ -1,6 +1,7 @@
 import formBuilder from './builders/formBuilder.js';
 import taskBuilder from './builders/taskBuilder.js';
 import modalBuilder from './builders/modalBuilder.js';
+import taskButtonsContainerBuilder from './builders/taskButtonsContainerBuilder.js';
 import { 
     setTaskToLocalStorage, 
     readLocalStorage,
@@ -10,8 +11,10 @@ import {
 const formTaskContainer = document.getElementById('form-task-container');
 const listTaskContainer = document.getElementById('list-task-container');
 
+const taskButtonsContainer = taskButtonsContainerBuilder();
 const modal = modalBuilder();
 let index = 0;
+let isOpen = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     formBuilder(formTaskContainer, addTask);
@@ -58,7 +61,17 @@ function addTask(inputTitle, inputDescription) {
     }
 
     ++index;
-    taskBuilder(listTaskContainer, title, description, deleteTask, index, modal);
+    taskBuilder(
+        listTaskContainer, 
+        title, 
+        description, 
+        deleteTask, 
+        index, 
+        modal, 
+        onClickTask, 
+        taskButtonsContainer,
+        isOpen
+    );
     setTaskToLocalStorage(index, title, description);
 
     inputTitle.value = '';
@@ -95,6 +108,24 @@ function onClickYes(modal, task) {
 // Метод для кнопки Нет
 function onClickNo(modal) {
     modal.close();
+}
+
+function onClickTask(task, taskButtonsContainer, open) {
+    if (open.isOpen) {
+        if (task == taskButtonsContainer.parentNode) {
+            taskButtonsContainer.remove();
+            console.log('TUT');
+        } else {
+            taskButtonsContainer.remove();
+            task.appendChild(taskButtonsContainer);
+            console.log('TUT2');
+        }
+    } else {
+        task.appendChild(taskButtonsContainer);
+        console.log('TUT3');
+    }
+
+    open.isOpen = !open.isOpen;
 }
 
 
