@@ -1,5 +1,4 @@
 @import "../../colors/colors";
-@import "../../mixins/button-mixin";
 
 .modal-window {
     width: 30%;
@@ -7,6 +6,7 @@
     height: 200px;
     margin: auto auto;
     border-style: none;
+    outline: none;
     
     .modal-content-container {
         display: flex;
@@ -17,6 +17,7 @@
         height: 100%;
         background-color: $light-background-color;
         border-radius: 0px 0px 10px 10px;
+        z-index: 10;
         
         .modal-decoration {
             height: 5px;
@@ -36,6 +37,7 @@
 
         .modal-buttons-container {
             display: flex;
+            justify-content: center;
             margin-bottom: 5%;
             width: 40%;
             gap: 20px;

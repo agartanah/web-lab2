@@ -1,0 +1,43 @@
+@import "../../colors/colors";
+@import "../../mixins/button-mixin";
+
+.edit-modal {
+    margin: auto auto;
+    margin-bottom: 0;
+    width: 50%;
+    height: 500px;
+    min-width: 400px;
+    border-style: none;
+    border-radius: 20px 20px 0 0;
+    outline: none;
+    z-index: 10;
+
+    .edit-modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 5%;
+        gap: 20px;
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            gap: 20px;
+
+            .input-description {
+                height: 300px;
+                padding-top: 1%;
+                resize: none;
+            }
+        }
+
+        .edit-modal-buttons-container {
+            display: flex;
+            justify-content: center;
+            width: 20%;
+            gap: 20px;
+        }
+    }
+}

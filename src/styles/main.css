@@ -71,14 +71,17 @@
 
 .share-button {
   background: url("/src/images/share-button.svg") center no-repeat;
+  background-color: #242320;
 }
 
 .info-button {
   background: url("/src/images/info-button.svg") center no-repeat;
+  background-color: #242320;
 }
 
 .edit-button {
   background: url("/src/images/edit-button.svg") center no-repeat;
+  background-color: #242320;
 }
 
 .text-buttons {
@@ -144,6 +147,7 @@
   min-width: 400px;
   padding: 2% 2% 1% 2%;
   box-sizing: border-box;
+  background-color: #242320;
   border: 2px;
   border-style: solid;
   border-color: #A35709;
@@ -151,15 +155,18 @@
 }
 .list-task-container .task-container .task .task-text {
   max-width: 80%;
+  background-color: #242320;
 }
 .list-task-container .task-container .task .task-text .task-title {
   font-size: 22px;
   margin-bottom: 4px;
   overflow: hidden;
+  background-color: #242320;
 }
 .list-task-container .task-container .task .task-text .task-description {
   font-size: 14px;
   overflow: hidden;
+  background-color: #242320;
 }
 .list-task-container .task-buttons-container {
   display: flex;
@@ -176,6 +183,7 @@
   height: 200px;
   margin: auto auto;
   border-style: none;
+  outline: none;
 }
 .modal-window .modal-content-container {
   display: flex;
@@ -186,6 +194,7 @@
   height: 100%;
   background-color: #242320;
   border-radius: 0px 0px 10px 10px;
+  z-index: 10;
 }
 .modal-window .modal-content-container .modal-decoration {
   height: 5px;
@@ -202,6 +211,7 @@
 }
 .modal-window .modal-content-container .modal-buttons-container {
   display: flex;
+  justify-content: center;
   margin-bottom: 5%;
   width: 40%;
   gap: 20px;
@@ -212,6 +222,43 @@
 }
 .modal-window .modal-content-container .modal-buttons-container .re-bg {
   border-color: #FF8303;
+}
+
+.edit-modal {
+  margin: auto auto;
+  margin-bottom: 0;
+  width: 50%;
+  height: 500px;
+  min-width: 400px;
+  border-style: none;
+  border-radius: 20px 20px 0 0;
+  outline: none;
+  z-index: 10;
+}
+.edit-modal .edit-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5%;
+  gap: 20px;
+}
+.edit-modal .edit-modal-content .input-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 20px;
+}
+.edit-modal .edit-modal-content .input-container .input-description {
+  height: 300px;
+  padding-top: 1%;
+  resize: none;
+}
+.edit-modal .edit-modal-content .edit-modal-buttons-container {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  gap: 20px;
 }
 
 * {

@@ -21,7 +21,11 @@ export default function taskBuilder(
 
     const task = document.createElement('div');
     task.className = 'task';
-    task.addEventListener('click', () => onClickTask(taskContainer, taskButtonsContainer, open));
+    task.addEventListener('click', () => onClickTask(
+        taskContainer, 
+        taskButtonsContainer, 
+        open
+    ));
 
     const taskText = document.createElement('div');
     taskText.className = 'task-text';
@@ -42,7 +46,10 @@ export default function taskBuilder(
 
     const dellButton = document.createElement('button');
     dellButton.className = 'dell-button';
-    dellButton.addEventListener('click', () => deleteTask(taskContainer, modal));
+    dellButton.addEventListener('click', (event) => {
+        deleteTask(taskContainer, modal);
+        event.stopPropagation();
+    });
 
     dellTaskButtonContainer.appendChild(dellButton);
 

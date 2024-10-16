@@ -7,15 +7,18 @@ import {
     readLocalStorage,
     deleteTaskFromLocalStorage 
 } from './data/storage/localStorage.js';
+import editModalBuilder from './builders/editModalBuilder.js';
 
 const formTaskContainer = document.getElementById('form-task-container');
 const listTaskContainer = document.getElementById('list-task-container');
 
 const taskButtonsContainer = taskButtonsContainerBuilder();
 const modal = modalBuilder();
-let index = 0;
-let isOpen = false;
+const editModal = editModalBuilder();
 
+let index = 0;
+
+// заполнение страницы данными (если они есть в local-storage)
 document.addEventListener('DOMContentLoaded', function() {
     formBuilder(formTaskContainer, addTask);
 
@@ -42,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
+// метод для кнопки добавления таска
 function addTask(inputTitle, inputDescription) {
     // const inputTitle = formTaskContainer.querySelector('#input-title');
     // const inputDescription = formTaskContainer.querySelector('#input-description');
@@ -69,8 +72,7 @@ function addTask(inputTitle, inputDescription) {
         index, 
         modal, 
         onClickTask, 
-        taskButtonsContainer,
-        isOpen
+        taskButtonsContainer
     );
     setTaskToLocalStorage(index, title, description);
 
@@ -78,6 +80,7 @@ function addTask(inputTitle, inputDescription) {
     inputDescription.value = '';
 }
 
+// метод для кнопки удаления
 function deleteTask(task, modal) {
     console.log(modal);
 
@@ -86,7 +89,7 @@ function deleteTask(task, modal) {
     modal.buttonYes.addEventListener(
         'click', 
         () => onClickYes(modal.modalWindow, task),
-        { once: true }
+        { once: true } // listener сработает один раз и удалится
     );
     modal.buttonNo.addEventListener(
         'click', 
@@ -110,22 +113,22 @@ function onClickNo(modal) {
     modal.close();
 }
 
+// Метод для события нажатия на таск
 function onClickTask(task, taskButtonsContainer, open) {
-    if (open.isOpen) {
-        if (task == taskButtonsContainer.parentNode) {
-            taskButtonsContainer.remove();
-            console.log('TUT');
-        } else {
-            taskButtonsContainer.remove();
-            task.appendChild(taskButtonsContainer);
-            console.log('TUT2');
+    if (open.isOpen) { // Если окно с кнопками открыто
+        if (task == taskButtonsContainer.parentNode) { // И пользователь нажал на таск с открытым окном
+            taskButtonsContainer.remove(); // то это окно закрывается
+        } else { // И пользователь нажал на таск, в котором это окно не открыто
+            taskButtonsContainer.remove(); // окно закрывается
+            task.appendChild(taskButtonsContainer); // и добавляется к другому таску
         }
-    } else {
-        task.appendChild(taskButtonsContainer);
-        console.log('TUT3');
+    } else { // Если окно закрыто
+        task.appendChild(taskButtonsContainer); // откроется у нажатого таска
     }
 
     open.isOpen = !open.isOpen;
 }
 
-
+// function editTask(modal) {
+//     modal.modalWindow.showModal();
+// }

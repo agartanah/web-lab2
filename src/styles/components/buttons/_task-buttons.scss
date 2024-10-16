@@ -10,14 +10,17 @@
 .share-button {
     @extend .task-buttons;
     background: url('/src/images/share-button.svg') center no-repeat;
+    background-color: $light-background-color;
 }
 
 .info-button {
     @extend .task-buttons;
     background: url('/src/images/info-button.svg') center no-repeat;
+    background-color: $light-background-color;
 }
 
 .edit-button {
     @extend .task-buttons;
     background: url('/src/images/edit-button.svg') center no-repeat;
+    background-color: $light-background-color;
 }

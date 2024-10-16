@@ -24,20 +24,24 @@
             min-width: 400px;
             padding: 2% 2% 1% 2%;
             box-sizing: border-box;
+            background-color: $light-background-color;
             @include button-border-style(8px, 2px, $orange-dark);
 
             .task-text {
                 max-width: 80%;
+                background-color: $light-background-color;
     
                 .task-title {
                     font-size: 22px;
                     margin-bottom: 4px;
                     overflow: hidden;
+                    background-color: $light-background-color;
                 }
         
                 .task-description {
                     font-size: 14px;
                     overflow: hidden;
+                    background-color: $light-background-color;
                 }
             }
         }
