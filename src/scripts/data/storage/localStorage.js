@@ -11,9 +11,13 @@ function readLocalStorage() {
     console.log(localStorage.length);
 
     for (let index = 0; index < localStorage.length; ++index) {
-        array[index] = localStorage.getItem(index + 1);
-        console.log(array[index]);
+        const key = localStorage.key(index);
+        array[index] = { key: key, value: localStorage.getItem(key) };
     }
+
+    array.sort((a, b) => a.key - b.key); // сортировка элементов к порядку их добавления
+
+    console.log(array);
 
     return array;
 }
@@ -22,4 +26,8 @@ function deleteTaskFromLocalStorage(taskId) {
     localStorage.removeItem(taskId);
 }
 
-export { setTaskToLocalStorage, readLocalStorage, deleteTaskFromLocalStorage };
+function hasKey(key) {
+    return localStorage.getItem(key) !== null;
+}
+
+export { setTaskToLocalStorage, readLocalStorage, deleteTaskFromLocalStorage, hasKey };

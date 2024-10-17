@@ -13,7 +13,8 @@ export default function taskBuilder(
     taskId, 
     modal,
     onClickTask,
-    taskButtonsContainer
+    taskButtonsContainer,
+    editModal
 ) {
     const taskContainer = document.createElement('div');
     taskContainer.className = 'task-container';
@@ -23,7 +24,8 @@ export default function taskBuilder(
     task.className = 'task';
     task.addEventListener('click', () => onClickTask(
         taskContainer, 
-        taskButtonsContainer, 
+        taskButtonsContainer,
+        editModal,
         open
     ));
 

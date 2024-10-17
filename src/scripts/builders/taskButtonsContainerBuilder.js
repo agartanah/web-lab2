@@ -15,5 +15,10 @@ export default function taskButtonsContainerBuilder(task) {
     taskButtonsContainer.appendChild(buttonInfo);
     taskButtonsContainer.appendChild(buttonEdit);
 
-    return taskButtonsContainer;
+    return {
+        taskButtonsContainer: taskButtonsContainer,
+        shareButton: buttonShare,
+        infoButton: buttonInfo,
+        editButton: buttonEdit
+    };
 }
