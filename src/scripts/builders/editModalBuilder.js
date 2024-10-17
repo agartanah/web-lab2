@@ -44,6 +44,8 @@ export default function editModalBuilder() {
     return {
         modalWindow: editModal,
         buttonCancel: buttonCancel,
-        buttonSave: buttonSave
+        buttonSave: buttonSave,
+        inputTitle: inputTitle,
+        inputDescription: textAreaDescription
     };
 }  

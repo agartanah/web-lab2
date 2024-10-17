@@ -32,6 +32,10 @@
   background-color: #2B2A27;
 }
 
+.error-value {
+  border-color: rgb(242, 47, 47);
+}
+
 .dell-button {
   width: 32px;
   height: 32px;

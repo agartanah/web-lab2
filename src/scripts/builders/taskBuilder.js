@@ -9,12 +9,9 @@ export default function taskBuilder(
     listTaskContainer, 
     titleTask, 
     descriptionTask, 
+    taskId,
     deleteTask, 
-    taskId, 
-    modal,
-    onClickTask,
-    taskButtonsContainer,
-    editModal
+    onClickTask
 ) {
     const taskContainer = document.createElement('div');
     taskContainer.className = 'task-container';
@@ -23,9 +20,9 @@ export default function taskBuilder(
     const task = document.createElement('div');
     task.className = 'task';
     task.addEventListener('click', () => onClickTask(
-        taskContainer, 
-        taskButtonsContainer,
-        editModal,
+        taskContainer,
+        pTitle,
+        pDescription,
         open
     ));
 
@@ -49,7 +46,7 @@ export default function taskBuilder(
     const dellButton = document.createElement('button');
     dellButton.className = 'dell-button';
     dellButton.addEventListener('click', (event) => {
-        deleteTask(taskContainer, modal);
+        deleteTask(taskContainer);
         event.stopPropagation();
     });
 

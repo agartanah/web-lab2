@@ -38,15 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (let indexElem = 0; indexElem < localStorageElements.length; ++indexElem) {
         let { title, description } = JSON.parse(localStorageElements[indexElem].value);
-        console.log(title);
-        console.log(description);
 
         addTaskFromLocalStorage({ 
             id: localStorageElements[indexElem].key,
             title: title,
             description: description 
-        }
-        );
+        });
     }
 });
 
@@ -58,12 +55,9 @@ function addTaskFromLocalStorage(task) {
         listTaskContainer, 
         task.title, 
         task.description, 
+        task.id,
         deleteTask, 
-        task.id, 
-        modal, 
-        onClickTask, 
-        taskButtons,
-        editModal
+        onClickTask
     );
 }
 
@@ -76,7 +70,11 @@ function addTask(inputTitle, inputDescription) {
     let description = inputDescription.value;
 
     if (title == '') {
+        inputTitle.className += ' error-value';
+
         return;
+    } else {
+        inputTitle.className = 'input-task';
     }
 
     if (description == '') {
@@ -97,23 +95,18 @@ function addTask(inputTitle, inputDescription) {
     // я начинаю двигаться назад по индексу, чтобы найти индекс ранее затёртого элемента (или элементов, тогда
     // они будут заполняться в обратном порядке), в нашем случае 3, и добавить новый элемент именно
     // по этому индексу.
-    // как-то так ^_^
+    // Не понятно получислось наверное, но как-то так ^_^
     while(hasKey(index)) {
         --index;
     }
-
-    console.log(index);
 
     taskBuilder(
         listTaskContainer, 
         title, 
         description, 
+        index,
         deleteTask, 
-        index, 
-        modal, 
-        onClickTask, 
-        taskButtons,
-        editModal
+        onClickTask
     );
     setTaskToLocalStorage(index, title, description);
 
@@ -123,67 +116,102 @@ function addTask(inputTitle, inputDescription) {
     inputDescription.value = '';
 }
 
+let taskForModalDelete; // переменная для слушателя кнопки Да
+
 // метод для кнопки удаления
-function deleteTask(task, modal) {
-    console.log(modal);
+function deleteTask(task) {
+    taskForModalDelete = task;    
 
     modal.modalWindow.showModal();
 
     modal.buttonYes.addEventListener(
         'click', 
-        () => onClickYes(modal.modalWindow, task),
+        onClickYes,
         { once: true } // listener сработает один раз и удалится
     );
     modal.buttonNo.addEventListener(
         'click', 
-        () => onClickNo(modal.modalWindow),
+        onClickNo,
         { once: true }
     )
 }
 
 // Метод для кнопки Да
-function onClickYes(modal, task) {
-    modal.close();
+function onClickYes() {
+    modal.modalWindow.close();
+    modal.buttonYes.removeEventListener('click', onClickYes);
 
-    task.remove();
-    console.log(task.id);
-    deleteTaskFromLocalStorage(task.id);
-
+    taskForModalDelete.remove();
+    deleteTaskFromLocalStorage(taskForModalDelete.id);
+    
     --index;
     console.log(index);
 }
 
 // Метод для кнопки Нет
-function onClickNo(modal) {
-    modal.close();
+function onClickNo() {
+    modal.modalWindow.close();
+    modal.buttonYes.removeEventListener('click', onClickYes);
 }
+
+let titleElem, descriptionElem, taskForTaskButtons; // переменные для слушателей таска
 
 // Метод для события нажатия на таск
-function onClickTask(task, taskButtons, editModal, open) {
-    if (open.isOpen) { // Если окно с кнопками открыто
-        if (task == taskButtons.taskButtonsContainer.parentNode) { // И пользователь нажал на таск с открытым окном
-            taskButtons.taskButtonsContainer.remove(); // то это окно закрывается
-            taskButtons.taskButtonsContainer = taskButtons.taskButtonsContainer.cloneNode(true);
-        } else { // И пользователь нажал на таск, в котором это окно не открыто
-            taskButtons.taskButtonsContainer.remove(); // окно закрывается
-            taskButtons.taskButtonsContainer = taskButtons.taskButtonsContainer.cloneNode(true);
-            task.appendChild(taskButtonsContainer); // и добавляется к другому таску
-        }
-    } else { // Если окно закрыто
-        task.appendChild(taskButtons.taskButtonsContainer); // откроется у нажатого таска
+function onClickTask(task, title, description, open) {
+    titleElem = title;
+    descriptionElem = description;
+    taskForTaskButtons = task;
 
-        taskButtons.editButton.addEventListener('click', () => { // Устанавливаются слушатели на кнопки таска
-            editModal.modalWindow.showModal();
-            
-            editModal.buttonCancel.addEventListener('click', () => {
-                editModal.modalWindow.close();
-            }, { once: true });
-        });
+    if (open.isOpen) { // Если окно с кнопками открыто
+        if (task == taskButtons.taskButtonsContainer.parentNode) { // если нажат таск с открытым окном
+            open.isOpen = false;
+
+            taskButtons.taskButtonsContainer.remove(); // окно закрывается при нажатии
+
+            // удаляются слушатели с кнопок
+            taskButtons.editButton.removeEventListener('click', onClickEditButton);
+
+            return;
+        }
+
+        taskButtons.taskButtonsContainer.remove(); // окно закрывается при нажатии
+        taskButtons.editButton.removeEventListener('click', onClickEditButton);
     }
 
-    open.isOpen = !open.isOpen;
+    // Если окно закрыто
+    task.appendChild(taskButtons.taskButtonsContainer); // откроется у нажатого таска
+
+    // Установка слушателей для кнопок таска
+    taskButtons.editButton.addEventListener('click', onClickEditButton);
+
+    open.isOpen = true;
 }
 
-// function editTask(modal) {
-//     modal.modalWindow.showModal();
-// }
+function onClickEditButton() {
+    editModal.modalWindow.showModal();
+    
+    editModal.inputTitle.value = titleElem.textContent;
+    editModal.inputDescription.value = descriptionElem.textContent;
+
+    editModal.buttonCancel.addEventListener('click', () => {
+        editModal.modalWindow.close();
+    }, { once: true });
+
+    editModal.buttonSave.addEventListener('click', () => {
+        const title = editModal.inputTitle.value;
+        const description = editModal.inputDescription.value;
+
+        if (title == '') {
+            editModal.inputTitle.className += ' error-value';
+
+            return;
+        }
+
+        titleElem.textContent = title;
+        descriptionElem.textContent = description;
+
+        setTaskToLocalStorage(taskForTaskButtons.id, title, description); // обновляю значения в localstorage
+
+        editModal.modalWindow.close();
+    }, { once: true });
+}
