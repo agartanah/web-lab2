@@ -180,6 +180,9 @@
   min-width: 400px;
   gap: 10px;
 }
+.list-task-container .no-tasks {
+  margin-top: 50px;
+}
 
 .modal-window {
   width: 30%;

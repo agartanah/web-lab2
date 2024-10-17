@@ -9,8 +9,7 @@ import {
     hasKey
 } from './data/storage/localStorage.js';
 import editModalBuilder from './builders/editModalBuilder.js';
-
-// localStorage.clear();
+import noTasksBuilder from './builders/noTasksBuilder.js';
 
 const formTaskContainer = document.getElementById('form-task-container');
 const listTaskContainer = document.getElementById('list-task-container');
@@ -18,6 +17,7 @@ const listTaskContainer = document.getElementById('list-task-container');
 const taskButtons = taskButtonsContainerBuilder();
 const modal = modalBuilder();
 const editModal = editModalBuilder();
+const noTasks = noTasksBuilder();
 
 let index = 0;
 
@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(localStorageElements);
 
     if (localStorageElements.length == 0) {
+        listTaskContainer.appendChild(noTasks);
+
         return;
     }
 
@@ -63,9 +65,6 @@ function addTaskFromLocalStorage(task) {
 
 // метод для кнопки добавления таска
 function addTask(inputTitle, inputDescription) {
-    console.log(inputTitle.value);
-    console.log(inputDescription.value);
-    
     let title = inputTitle.value;
     let description = inputDescription.value;
 
@@ -99,6 +98,8 @@ function addTask(inputTitle, inputDescription) {
     while(hasKey(index)) {
         --index;
     }
+
+    noTasks.remove();
 
     taskBuilder(
         listTaskContainer, 
@@ -145,6 +146,10 @@ function onClickYes() {
     deleteTaskFromLocalStorage(taskForModalDelete.id);
     
     --index;
+
+    if (index == 0) {
+        listTaskContainer.appendChild(noTasks);
+    }
     console.log(index);
 }
 
