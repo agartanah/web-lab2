@@ -43,6 +43,7 @@ export default function editModalBuilder() {
 
     return {
         modalWindow: editModal,
+        modalContent: editModalContent,
         buttonCancel: buttonCancel,
         buttonSave: buttonSave,
         inputTitle: inputTitle,

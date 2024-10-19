@@ -10,14 +10,22 @@ import {
 } from './data/storage/localStorage.js';
 import editModalBuilder from './builders/editModalBuilder.js';
 import noTasksBuilder from './builders/noTasksBuilder.js';
+import shareModalBuilder from './builders/shareModalBuilder.js';
+import backdropBuilder from './builders/backdropBuilder.js';
 
+// получаю объекты модальных окон
+const modal = modalBuilder();
+const editModal = editModalBuilder();
+const shareModal = shareModalBuilder();
+const backdrop = backdropBuilder(); // и фона
+
+// здесь контейнеры для формы и списка задач
 const formTaskContainer = document.getElementById('form-task-container');
 const listTaskContainer = document.getElementById('list-task-container');
 
-const taskButtons = taskButtonsContainerBuilder();
-const modal = modalBuilder();
-const editModal = editModalBuilder();
-const noTasks = noTasksBuilder();
+// вспомогательные контейнеры
+const taskButtons = taskButtonsContainerBuilder(); // для кнопок таска
+const noTasks = noTasksBuilder(); // для отображения нулевого списка задач
 
 let index = 0;
 
@@ -34,10 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // localStorageElements.map(task => JSON.parse(task));
-
-    console.log(localStorageElements);
-
+    // отображение уже существующих задач при запуске страницы
     for (let indexElem = 0; indexElem < localStorageElements.length; ++indexElem) {
         let { title, description } = JSON.parse(localStorageElements[indexElem].value);
 
@@ -115,6 +120,8 @@ function addTask(inputTitle, inputDescription) {
 
     inputTitle.value = '';
     inputDescription.value = '';
+
+    console.log('ADD TASK');
 }
 
 let taskForModalDelete; // переменная для слушателя кнопки Да
@@ -124,6 +131,9 @@ function deleteTask(task) {
     taskForModalDelete = task;    
 
     modal.modalWindow.showModal();
+    modal.modalWindow.addEventListener('click', onClickBackdrop);
+
+    backdrop.classList.add('backdrop-open');
 
     modal.buttonYes.addEventListener(
         'click', 
@@ -134,13 +144,18 @@ function deleteTask(task) {
         'click', 
         onClickNo,
         { once: true }
-    )
+    );
+
+    console.log('DELETE');
 }
 
 // Метод для кнопки Да
 function onClickYes() {
     modal.modalWindow.close();
-    modal.buttonYes.removeEventListener('click', onClickYes);
+    // modal.buttonYes.removeEventListener('click', onClickNo);
+    modal.modalWindow.removeEventListener('click', onClickBackdrop);
+    
+    backdrop.classList.remove('backdrop-open');
 
     taskForModalDelete.remove();
     deleteTaskFromLocalStorage(taskForModalDelete.id);
@@ -150,19 +165,27 @@ function onClickYes() {
     if (index == 0) {
         listTaskContainer.appendChild(noTasks);
     }
-    console.log(index);
+
+    console.log('YES');
 }
 
 // Метод для кнопки Нет
 function onClickNo() {
     modal.modalWindow.close();
-    modal.buttonYes.removeEventListener('click', onClickYes);
+    // modal.buttonYes.removeEventListener('click', onClickYes);
+    modal.modalWindow.removeEventListener('click', onClickBackdrop);
+    
+    backdrop.classList.remove('backdrop-open');
+
+    console.log('NO');
 }
 
-let titleElem, descriptionElem, taskForTaskButtons; // переменные для слушателей таска
+let titleElem, descriptionElem, taskForTaskButtons; // переменные для слушателей кнопок таска
 
 // Метод для события нажатия на таск
 function onClickTask(task, title, description, open) {
+    console.log('TASK');
+
     titleElem = title;
     descriptionElem = description;
     taskForTaskButtons = task;
@@ -175,12 +198,18 @@ function onClickTask(task, title, description, open) {
 
             // удаляются слушатели с кнопок
             taskButtons.editButton.removeEventListener('click', onClickEditButton);
+            taskButtons.shareButton.removeEventListener('click', onClickShareButton);
+            taskButtons.infoButton.removeEventListener('click', onClickInfoButton);
 
             return;
         }
 
         taskButtons.taskButtonsContainer.remove(); // окно закрывается при нажатии
+
+        // удаляются слушатели с кнопок
         taskButtons.editButton.removeEventListener('click', onClickEditButton);
+        taskButtons.shareButton.removeEventListener('click', onClickShareButton);
+        taskButtons.infoButton.removeEventListener('click', onClickInfoButton);
     }
 
     // Если окно закрыто
@@ -188,35 +217,226 @@ function onClickTask(task, title, description, open) {
 
     // Установка слушателей для кнопок таска
     taskButtons.editButton.addEventListener('click', onClickEditButton);
+    taskButtons.shareButton.addEventListener('click', onClickShareButton);
+    taskButtons.infoButton.addEventListener('click', onClickInfoButton);
 
     open.isOpen = true;
 }
 
+// Метод для кнопки редактирования таска
 function onClickEditButton() {
     editModal.modalWindow.showModal();
+    // слушатель для фона, чтобы при нажати закрывать модальное окно
+    editModal.modalWindow.addEventListener('mousedown', onClickBackdrop);
     
+    backdrop.classList.add('backdrop-open'); // отрисовка фона
+
     editModal.inputTitle.value = titleElem.textContent;
     editModal.inputDescription.value = descriptionElem.textContent;
 
-    editModal.buttonCancel.addEventListener('click', () => {
+    editModal.buttonCancel.addEventListener('click', onClickCancel, { once: true });
+    editModal.buttonSave.addEventListener('click', onClickSave);
+
+    console.log('EDIT');
+}
+
+// метод для кнопки Save
+function onClickSave() {
+    console.log('SAVE');
+
+    const title = editModal.inputTitle.value;
+    const description = editModal.inputDescription.value;
+
+    if (title == '') {
+        editModal.inputTitle.classList.add('error-value');
+
+        return;
+    }
+    editModal.inputTitle.classList.remove('error-value');
+
+    titleElem.textContent = title;
+    descriptionElem.textContent = description;
+
+    setTaskToLocalStorage(taskForTaskButtons.id, title, description); // обновляю значения в localstorage
+
+    editModal.modalWindow.close();
+    editModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // editModal.buttonCancel.removeEventListener('click', onClickCancel);
+    // editModal.buttonSave.removeEventListener('click', onClickSave);
+    
+    backdrop.classList.remove('backdrop-open');
+}
+
+// метод для кнопки Cancel
+function onClickCancel() {
+    editModal.modalWindow.close();
+    editModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // editModal.buttonCancel.removeEventListener('click', onClickCancel);
+    // editModal.buttonSave.removeEventListener('click', onClickSave);
+    
+    backdrop.classList.remove('backdrop-open');
+    editModal.inputTitle.classList.remove('error-value');
+
+    console.log('CANCEL');
+}
+
+function onClickShareButton() {
+    shareModal.modalWindow.showModal();
+    // слушатель для фона, чтобы при нажати закрывать модальное окно
+    shareModal.modalWindow.addEventListener('click', onClickBackdrop);
+    
+    backdrop.classList.add('backdrop-open'); // отрисовка фона
+
+    shareModal.buttonCopy.addEventListener('click', onClickCopy, { once: true });
+    shareModal.buttonVk.addEventListener('click', onClickVk, { once: true });
+    shareModal.buttonTelegram.addEventListener('click', onClickTelegram, { once: true });
+    shareModal.buttonWhatsup.addEventListener('click', onClickWhatsup, { once: true });
+    shareModal.buttonFacebook.addEventListener('click', onClickFacebook, { once: true });
+
+    console.log('SHARE');
+}
+
+function onClickCopy(event) {
+    event.stopPropagation();
+
+    navigator.clipboard.writeText(
+        `Title: ${ titleElem.textContent }
+        Description: ${ descriptionElem.textContent }`
+    ); // скопировать данные таска в буфер
+
+    shareModal.modalWindow.close(); 
+    shareModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+    // shareModal.buttonVk.removeEventListener('click', onClickVk);
+    // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+    // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+    // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+    backdrop.classList.remove('backdrop-open'); 
+
+    console.log('COPY');
+}
+
+function onClickVk(event) {
+    event.stopPropagation();
+        
+    // код для поделиться в вк
+    
+    shareModal.modalWindow.close(); 
+    shareModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+    // shareModal.buttonVk.removeEventListener('click', onClickVk);
+    // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+    // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+    // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+    backdrop.classList.remove('backdrop-open'); 
+
+    console.log('VK');
+}
+
+function onClickTelegram(event) {
+    event.stopPropagation();
+        
+    // код для поделиться в телеграме
+
+    shareModal.modalWindow.close(); 
+    shareModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+    // shareModal.buttonVk.removeEventListener('click', onClickVk);
+    // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+    // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+    // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+    backdrop.classList.remove('backdrop-open');
+
+    console.log('TG');
+}
+
+function onClickWhatsup(event) {
+    event.stopPropagation();
+        
+    // код для поделиться в ватс апе
+
+    shareModal.modalWindow.close(); 
+    shareModal.modalWindow.removeEventListener('click', onClickBackdrop); 
+    // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+    // shareModal.buttonVk.removeEventListener('click', onClickVk);
+    // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+    // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+    // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+    backdrop.classList.remove('backdrop-open');
+   
+    console.log('WUP');
+}
+
+function onClickFacebook(event) {
+    event.stopPropagation();
+        
+    // код для поделиться в фэйсбуке
+
+    shareModal.modalWindow.close(); 
+    shareModal.modalWindow.removeEventListener('click', onClickBackdrop);
+    // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+    // shareModal.buttonVk.removeEventListener('click', onClickVk);
+    // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+    // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+    // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+    backdrop.classList.remove('backdrop-open');
+
+    console.log('FBOK');
+}
+
+function onClickBackdrop(event) {
+    if (event.target == shareModal.modalWindow && event.target != shareModal.modalContent) {
+        shareModal.modalWindow.close();
+        shareModal.modalWindow.removeEventListener('click', onClickBackdrop);
+        // shareModal.buttonCopy.removeEventListener('click', onClickCopy);
+        // shareModal.buttonVk.removeEventListener('click', onClickVk);
+        // shareModal.buttonTelegram.removeEventListener('click', onClickTelegram);
+        // shareModal.buttonWhatsup.removeEventListener('click', onClickWhatsup);
+        // shareModal.buttonFacebook.removeEventListener('click', onClickFacebook);
+
+        backdrop.classList.remove('backdrop-open');
+
+        console.log('BDR-SHARE');
+    } else if (event.target == editModal.modalWindow && 
+        (event.target != editModal.modalContent &&
+        event.target != editModal.inputTitle &&
+        event.target != editModal.inputDescription)) {
         editModal.modalWindow.close();
-    }, { once: true });
+        editModal.modalWindow.removeEventListener('mousedown', onClickBackdrop);
+        // editModal.buttonCancel.removeEventListener('click', onClickCancel);
+        // editModal.buttonSave.removeEventListener('click', onClickSave);
+        
+        backdrop.classList.remove('backdrop-open');
+        editModal.inputTitle.classList.remove('error-value');
 
-    editModal.buttonSave.addEventListener('click', () => {
-        const title = editModal.inputTitle.value;
-        const description = editModal.inputDescription.value;
+        console.log("BDR-EDIT");
+    } else if (event.target == modal.modalWindow && event.target != modal.modalContent) {
+        modal.modalWindow.close();
+        modal.modalWindow.removeEventListener('click', onClickBackdrop);
+        
+        backdrop.classList.remove('backdrop-open');
 
-        if (title == '') {
-            editModal.inputTitle.className += ' error-value';
+        console.log('BDR-DEL');
+    }
+}
 
-            return;
-        }
+function onClickInfoButton() {
+    console.log('INFO');
 
-        titleElem.textContent = title;
-        descriptionElem.textContent = description;
+    if (titleElem.classList.contains('task-title-extend')) {
+        titleElem.classList.remove('task-title-extend');
+    } else {
+        titleElem.classList.add('task-title-extend');
+    }
 
-        setTaskToLocalStorage(taskForTaskButtons.id, title, description); // обновляю значения в localstorage
-
-        editModal.modalWindow.close();
-    }, { once: true });
+    if (descriptionElem.classList.contains('task-description-extend')) {
+        descriptionElem.classList.remove('task-description-extend');
+    } else {
+        descriptionElem.classList.add('task-description-extend');
+    }
 }

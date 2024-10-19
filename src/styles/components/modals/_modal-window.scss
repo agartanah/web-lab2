@@ -1,11 +1,9 @@
 @import "../../colors/colors";
 
 .modal-window {
-    width: 30%;
-    min-width: 400px;
-    height: 200px;
     margin: auto auto;
     border-style: none;
+    border-radius: 0px 0px 10px 10px;
     outline: none;
     
     .modal-content-container {
@@ -13,10 +11,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        width: 100%;
-        height: 100%;
+        width: 30%;
+        min-width: 400px;
+        height: 200px;
         background-color: $light-background-color;
-        border-radius: 0px 0px 10px 10px;
         z-index: 10;
         
         .modal-decoration {

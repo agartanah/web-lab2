@@ -1,12 +1,15 @@
 @import "./components/buttons/add-button";
-@import "./components/forms/inputs/input-task";
 @import "./components/buttons/dell-button";
 @import "./components/buttons/task-buttons";
 @import "./components/buttons/text-buttons";
+@import './components/buttons/share-buttons';
+@import "./components/forms/inputs/input-task";
 @import "./components/forms/form-task";
 @import "./components/tasks/list-task-container";
-@import "./components/modals/modal-window";
 @import "./components/modals/edit-modal";
+@import "./components/modals/modal-window";
+@import "./components/modals/share-modal";
+@import "./components/modals/backdrop";
 @import "./colors/colors";
 
 * {
@@ -22,4 +25,12 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+dialog::backdrop {
+    background-color: none;
+    
+    dialog[open] {
+        display: block;
+    }
 }

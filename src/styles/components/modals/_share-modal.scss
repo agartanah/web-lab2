@@ -1,0 +1,18 @@
+.share-modal {
+    margin: auto auto;
+    margin-bottom: 0;
+    border-style: none;
+    border-radius: 20px 20px 0 0;
+    outline: none;
+
+    .share-modal-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 20%;
+        height: 60px;
+        min-width: 400px;
+        padding: 10px;
+        z-index: 10;
+    }
+}

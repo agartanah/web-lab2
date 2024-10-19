@@ -42,7 +42,8 @@ export default function modalBuilder() {
     document.body.appendChild(modal);
 
     return { 
-        modalWindow: modal, 
+        modalWindow: modal,
+        modalContent: modalContentContainer,
         buttonYes: buttonYes, 
         buttonNo: buttonNo 
     };

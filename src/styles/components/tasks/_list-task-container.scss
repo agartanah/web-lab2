@@ -34,14 +34,24 @@
                 .task-title {
                     font-size: 22px;
                     margin-bottom: 4px;
-                    overflow: hidden;
-                    background-color: $light-background-color;
                 }
         
                 .task-description {
                     font-size: 14px;
+                }
+
+                .task-title, .task-description {
                     overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                     background-color: $light-background-color;
+                }
+
+                .task-title-extend, .task-description-extend {
+                    white-space: normal;
+                    overflow: visible;
+                    overflow-wrap: break-word;
+                    hyphens: auto; // красивый перенос слов
                 }
             }
         }

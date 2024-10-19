@@ -1,0 +1,38 @@
+@import "../../colors/colors";
+@import "../../mixins/button-mixin";
+
+.share-buttons {
+    @include button-size(48px, 48px);
+    @include button-border-style(50%, 0px, $light-background-color);
+    @include button-bg-color($light-background-color, $hover-color);
+}
+
+.copy-button {
+    @extend .share-buttons;
+    background: url('/src/images/copy-button.svg') center no-repeat;
+    background-color: $light-background-color;
+}
+
+.vk-button {
+    @extend .share-buttons;
+    background: url('/src/images/vk-button.svg') center no-repeat;
+    background-color: $light-background-color;
+}
+
+.telegram-button {
+    @extend .share-buttons;
+    background: url('/src/images/telegram-button.svg') center no-repeat;
+    background-color: $light-background-color;
+}
+
+.whatsup-button {
+    @extend .share-buttons;
+    background: url('/src/images/whatsup-button.svg') center no-repeat;
+    background-color: $light-background-color;
+}
+
+.facebook-button {
+    @extend .share-buttons;
+    background: url('/src/images/facebook-button.svg') center no-repeat;
+    background-color: $light-background-color;
+}

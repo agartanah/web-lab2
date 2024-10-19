@@ -18,24 +18,6 @@
   background-color: #2B2A27;
 }
 
-.input-task {
-  height: 32px;
-  padding-left: 10px;
-  border-radius: 4px;
-  border: 1px solid #FF8303;
-  background-color: #242320;
-  font-weight: bold;
-  font-size: 14px;
-}
-.input-task:focus {
-  outline: none;
-  background-color: #2B2A27;
-}
-
-.error-value {
-  border-color: rgb(242, 47, 47);
-}
-
 .dell-button {
   width: 32px;
   height: 32px;
@@ -108,6 +90,67 @@
   background-color: #2B2A27;
 }
 
+.share-buttons, .facebook-button, .whatsup-button, .telegram-button, .vk-button, .copy-button {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: 0px;
+  border-style: solid;
+  border-color: #242320;
+  border-radius: 50%;
+  background-color: #242320;
+}
+.share-buttons:hover, .facebook-button:hover, .whatsup-button:hover, .telegram-button:hover, .vk-button:hover, .copy-button:hover {
+  background-color: #2B2A27;
+}
+
+.copy-button {
+  background: url("/src/images/copy-button.svg") center no-repeat;
+  background-color: #242320;
+}
+
+.vk-button {
+  background: url("/src/images/vk-button.svg") center no-repeat;
+  background-color: #242320;
+}
+
+.telegram-button {
+  background: url("/src/images/telegram-button.svg") center no-repeat;
+  background-color: #242320;
+}
+
+.whatsup-button {
+  background: url("/src/images/whatsup-button.svg") center no-repeat;
+  background-color: #242320;
+}
+
+.facebook-button {
+  background: url("/src/images/facebook-button.svg") center no-repeat;
+  background-color: #242320;
+}
+
+.input-task {
+  height: 32px;
+  padding-left: 10px;
+  border-radius: 4px;
+  border: 1px solid #FF8303;
+  background-color: #242320;
+  font-weight: bold;
+  font-size: 14px;
+}
+.input-task:focus {
+  outline: none;
+  background-color: #2B2A27;
+}
+
+.error-value {
+  border-color: rgb(242, 47, 47);
+}
+
 .form-task-container {
   display: flex;
   flex-direction: row;
@@ -164,13 +207,22 @@
 .list-task-container .task-container .task .task-text .task-title {
   font-size: 22px;
   margin-bottom: 4px;
-  overflow: hidden;
-  background-color: #242320;
 }
 .list-task-container .task-container .task .task-text .task-description {
   font-size: 14px;
+}
+.list-task-container .task-container .task .task-text .task-title, .list-task-container .task-container .task .task-text .task-description {
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   background-color: #242320;
+}
+.list-task-container .task-container .task .task-text .task-title-extend, .list-task-container .task-container .task .task-text .task-description-extend {
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+          hyphens: auto;
 }
 .list-task-container .task-buttons-container {
   display: flex;
@@ -184,12 +236,50 @@
   margin-top: 50px;
 }
 
-.modal-window {
-  width: 30%;
+.edit-modal {
+  margin: auto auto;
+  margin-bottom: 0;
+  border-style: none;
+  border-radius: 20px 20px 0 0;
+  width: 50%;
+  height: 500px;
   min-width: 400px;
-  height: 200px;
+  outline: none;
+}
+.edit-modal .edit-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-style: none;
+  border-radius: 20px 20px 0 0;
+  z-index: 10;
+  gap: 20px;
+}
+.edit-modal .edit-modal-content .input-container {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 20px;
+}
+.edit-modal .edit-modal-content .input-container .input-description {
+  height: 300px;
+  padding-top: 1%;
+  resize: none;
+}
+.edit-modal .edit-modal-content .edit-modal-buttons-container {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  gap: 20px;
+}
+
+.modal-window {
   margin: auto auto;
   border-style: none;
+  border-radius: 0px 0px 10px 10px;
   outline: none;
 }
 .modal-window .modal-content-container {
@@ -197,10 +287,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  min-width: 400px;
+  height: 200px;
   background-color: #242320;
-  border-radius: 0px 0px 10px 10px;
   z-index: 10;
 }
 .modal-window .modal-content-container .modal-decoration {
@@ -231,41 +321,37 @@
   border-color: #FF8303;
 }
 
-.edit-modal {
+.share-modal {
   margin: auto auto;
   margin-bottom: 0;
-  width: 50%;
-  height: 500px;
-  min-width: 400px;
   border-style: none;
   border-radius: 20px 20px 0 0;
   outline: none;
+}
+.share-modal .share-modal-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 20%;
+  height: 60px;
+  min-width: 400px;
+  padding: 10px;
   z-index: 10;
 }
-.edit-modal .edit-modal-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 5%;
-  gap: 20px;
+
+.backdrop {
+  display: none;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(7, 7, 7, 0.5);
 }
-.edit-modal .edit-modal-content .input-container {
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-  gap: 20px;
-}
-.edit-modal .edit-modal-content .input-container .input-description {
-  height: 300px;
-  padding-top: 1%;
-  resize: none;
-}
-.edit-modal .edit-modal-content .edit-modal-buttons-container {
-  display: flex;
-  justify-content: center;
-  width: 20%;
-  gap: 20px;
+
+.backdrop-open {
+  display: block;
 }
 
 * {
@@ -281,4 +367,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+dialog::backdrop {
+  background-color: none;
+}
+dialog::backdrop dialog[open] {
+  display: block;
 }/*# sourceMappingURL=main.css.map */
